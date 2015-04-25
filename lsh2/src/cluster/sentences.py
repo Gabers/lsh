@@ -26,10 +26,10 @@ def similarPairs(lengthDict, bucketDict, distanceMeas):
                                     pass
                                 else:
                                     comparisons = comparisons + 1
-                                    print "comparing: "+str(bucketSentence)+" "+str(sentence)+" "+\
-                                          str(distanceMeas(bucketSentence,sentence))
-                                    if (distanceMeas(bucketSentence, sentence) <= 1):
-                                        print " added"
+#                                     print "comparing: "+str(bucketSentence)+" "+str(sentence)+" "+\
+#                                           str(distanceMeas(bucketSentence,sentence))
+                                    if (distanceMeas(bucketSentence, sentence,1) <= 1):
+#                                         print " added"
                                         pairs = pairs + 1
                                         pairedSentencesList.append(bucketSentence)
 

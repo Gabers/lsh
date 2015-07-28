@@ -6,26 +6,23 @@ Created on Apr 17, 2015
 
 import cluster.sentences
 import cluster.dist
-import sys, getopt
-# import objgraph
-# from guppy import hpy
+import sys
 
 
+def runOnFile(inputFile, options=None):
+    # first parse options
+    if options is None:
+        options = {}
 
-
-            
-            
-    
-
-
-def main():
-    print "testing main"
-    
-    inputFile = "data/sentence_sample.txt"
-    if (len(sys.argv) == 2):
-        inputFile = sys.argv[1]
-    
-#     hp = hpy()
+    maxLines = sys.maxint
+    verbose = False
+    useHash = True
+    if 'maxLines' in options:
+        maxLines = options['maxLines']
+    if 'verbose' in options:
+        verbose = options['verbose']
+    if 'useHash' in options:
+        useHash = options['useHash']
     
     # dict hashing sentences to lengths + vals
     #  keys = length of sentences in bucket
@@ -35,17 +32,20 @@ def main():
     
     buckets = 0
     
-    print "parsing " + inputFile
+    if verbose:
+        print "parsing " + inputFile
     # loop thru file, store sentences indexed by len & 2 first words
     with open(inputFile,"r") as infile:
         numRead = 0
         for line in infile:
             numRead = numRead + 1
-            if (numRead > 1000):
+            if (numRead > maxLines):
                 break
             lineList = line.split()[1:]
-            wordHashList = lineList
-#             wordHashList = map(hash,lineList)
+            if (useHash):
+              wordHashList = map(hash,lineList)
+            else:
+              wordHashList = lineList
             length = len(wordHashList)
             if (length in lengthDict):
                 lengthDict[length].append(wordHashList)
@@ -62,25 +62,14 @@ def main():
                         bucketDict[key] = [wordHashList]
                         buckets = buckets + 1
 
-    print str(numRead) + " lines read into " + str(buckets) + " buckets"
-    
-#     print hp.heap()
-    
-    
-    print "counting pairs"
+    if (verbose):
+      print str(numRead) + " lines read into " + str(buckets) + " buckets"
+      print "counting pairs"
 
     pairs = cluster.sentences.similarPairs(lengthDict, bucketDict, cluster.dist.editDist)
     
-    #print hp.heap()
-#     objgraph.show_most_common_types(limit=20)
-                        
-    print str(pairs) + " pairs counted "# + str(comparisons) + " comparisons"
-#     print pairList
+    if (verbose):
+      print str(pairs) + " pairs counted "# + str(comparisons) + " comparisons"
 
+    return pairs
 
-    
-    
-
-if __name__ == '__main__':
-    main()
-    

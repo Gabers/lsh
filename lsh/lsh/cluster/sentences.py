@@ -4,12 +4,20 @@ Created on Apr 19, 2015
 @author: gabrielryan
 '''
 
-def similarPairs(lengthDict, bucketDict, distanceMeas):
+def similarPairs(lengthDict, bucketDict, distanceMeas, options=None):
+    # parse options
+    if (options is None):
+        options = {}
+    verbose = False
+    if ('verbose' in options):
+        verbose = options['verbose']
+
     pairs = 0
     comparisons = 0
 #     pairList = []
     for length in lengthDict.keys():
-        print "comparing length " + str(length) + " found " + str(pairs) + " with " + str(comparisons) + " comparisons"
+        if (verbose):
+          print "comparing length " + str(length) + " found " + str(pairs) + " with " + str(comparisons) + " comparisons"
         for sentence in lengthDict[length]:
             #check for pairs at same length
             pairedSentencesList = []

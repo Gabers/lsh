@@ -25,6 +25,7 @@ def editDist(wi,wj,maxDist=1000):
                              table[i-1,j-1]+sub)
             if(table[i,j] <= maxDist):
                 maxDistExceeded = False
+        # speed up comparison if we're only checking for a threshold
         if maxDistExceeded:
             return maxDist + 1
         

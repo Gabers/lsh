@@ -1,0 +1,24 @@
+#! /usr/bin/env python
+'''
+Created on Jul 27, 2015
+
+@author: gabrielryan
+'''
+
+import lsh.run
+import sys
+
+if (len(sys.argv) != 2):
+    print "usage:",sys.argv[0],"<sentence data file>"
+    sys.exit(0)
+
+print 'running lsh on',sys.argv[1]
+options = { 'verbose' : True,
+            'useHash' : False }
+
+pairs = lsh.run.runOnFile(sys.argv[1],options)
+
+print 'found',pairs,'pairs'
+
+
+
